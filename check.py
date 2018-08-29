@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+import os
+
+import requests
+from twilio.rest import Client
+
+COURSES_TO_CHECK = ['COMM 457 101']
+
+TWILIO_NUMBER = '+15874155795'
+TO_NUMBER = '+17787125588'
+TWILIO_CLIENT = Client(
+    os.environ['TWILIO_ACCOUNT_SID'],
+    os.environ['TWILIO_AUTH_TOKEN']
+)
+
+def __send_course_request(dept_name, course_name, section):
+    return requests.get('https://courses.students.ubc.ca/cs/main', params={
+        'pname': 'subjarea',
+        'tname': 'subjarea',
+        'req': '5',
+        'dept': dept_name,
+        'course': course_name,
+        'section': section
+    })
+
+def __send_text(content):
+    TWILIO_CLIENT.messages.create(
+        body=content,
+        from_=TWILIO_NUMBER,
+        to=TO_NUMBER
+    )
+    print(content)
+
+for course in COURSES_TO_CHECK:
+    resp = __send_course_request(*course.split())
+    resp.raise_for_status()
+    course_is_full = 'Note: this section is full' in resp.text
+    if course_is_full:
+        print(f'{course} is full :(')
+    else:
+        __send_text(f'{course} has a free spot! Register at {resp.url}')
