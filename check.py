@@ -31,11 +31,18 @@ def __send_text(content):
     )
     print(content)
 
-for course in COURSES_TO_CHECK:
-    resp = __send_course_request(*course.split())
-    resp.raise_for_status()
-    course_is_full = 'Note: this section is full' in resp.text
-    if course_is_full:
-        print(f'{course} is full :(')
-    else:
-        __send_text(f'{course} has a free spot! Register at {resp.url}')
+def check_courses():
+    for course in COURSES_TO_CHECK:
+        resp = __send_course_request(*course.split())
+        resp.raise_for_status()
+        course_is_full = 'Note: this section is full' in resp.text
+        if course_is_full:
+            print(f'{course} is full :(')
+        else:
+            __send_text(f'{course} has a free spot! Register at {resp.url}')
+
+def handler(event, context):
+    check_courses()
+
+if __name__ == '__main__':
+    check_courses()
