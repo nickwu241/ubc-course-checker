@@ -1,7 +1,7 @@
 # UBC Course Checker
 
 Program to keep checking for free spots in your desired courses!
-I used this to get into the courses I want to take :)
+I used this to get into the courses I wanted to take :)
 
 ### How To Use
 
