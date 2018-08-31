@@ -22,7 +22,7 @@ because I use the Free plan which only allows me to send texts to myself.
 2.  Install dependencies with `pipenv`:
 
     ```shell
-    pipenv shell && pipenv install
+    pipenv install
     ```
 
 3.  Update the `COURSES_TO_CHECK` variable in `check.py` to the courses you want to check.
