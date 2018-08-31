@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import os
+import time
 
 import requests
 from twilio.rest import Client
 
-COURSES_TO_CHECK = ['COMM 457 101']
+COURSES_TO_CHECK = [
+    'LING 447G 001'
+]
 
 TWILIO_NUMBER = '+15874155795'
 TO_NUMBER = '+17787125588'
@@ -32,7 +35,8 @@ def __send_text(content):
     print(content)
 
 def check_courses():
-    for course in COURSES_TO_CHECK:
+    print(f'checking spots for {COURSES_TO_CHECK}...')
+    for course in list(COURSES_TO_CHECK):
         resp = __send_course_request(*course.split())
         resp.raise_for_status()
         course_is_full = 'Note: this section is full' in resp.text
@@ -40,9 +44,14 @@ def check_courses():
             print(f'{course} is full :(')
         else:
             __send_text(f'{course} has a free spot! Register at {resp.url}')
+            COURSES_TO_CHECK.remove(course)
 
 def handler(event, context):
     check_courses()
 
 if __name__ == '__main__':
-    check_courses()
+    while True:
+        check_courses()
+        if not COURSES_TO_CHECK:
+            break
+        time.sleep(300)
