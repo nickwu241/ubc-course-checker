@@ -8,7 +8,9 @@ I used this to get into the courses I want to take :)
 To use this, you'll need to create your own Twilio account for sending texts,
 because I use the Free plan which only allows me to send texts to myself.
 
-1.  Sign up for Twilio and get a free number, then export your Twilio information via `.bash_profile`:
+1.  [Sign up for Twilio](https://www.twilio.com/try-twilio), then get a free number [here](https://www.twilio.com/console/phone-numbers/incoming).
+
+2. Export your Twilio information via `.bash_profile`:
 
     ```shell
     export TWILIO_ACCOUNT_SID='<YOUR_ACCOUNT_SID>'
