@@ -32,3 +32,7 @@ because I use the Free plan which only allows me to send texts to myself.
     ```shell
     ./check.py
     ```
+
+## Demo
+
+<img src="demo.png" alt="Text Message Demo" width="300"/>
