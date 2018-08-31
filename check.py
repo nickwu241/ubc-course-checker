@@ -9,8 +9,8 @@ COURSES_TO_CHECK = [
     'LING 447G 001'
 ]
 
-TWILIO_NUMBER = '+15874155795'
-TO_NUMBER = '+17787125588'
+TWILIO_FROM_NUMBER = os.environ.get('TWILIO_FROM_NUMBER') or '+15874155795'
+TWILIO_TO_NUMBER = os.environ.get('TWILIO_TO_NUMBER') or '+17787125588'
 TWILIO_CLIENT = Client(
     os.environ['TWILIO_ACCOUNT_SID'],
     os.environ['TWILIO_AUTH_TOKEN']
@@ -29,8 +29,8 @@ def __send_course_request(dept_name, course_name, section):
 def __send_text(content):
     TWILIO_CLIENT.messages.create(
         body=content,
-        from_=TWILIO_NUMBER,
-        to=TO_NUMBER
+        from_=TWILIO_FROM_NUMBER,
+        to=TWILIO_TO_NUMBER
     )
     print(content)
 
