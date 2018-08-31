@@ -28,7 +28,7 @@ because I use the Free plan which only allows me to send texts to myself.
 3.  Update the `COURSES_TO_CHECK` variable in `check.py` to the courses you want to check.
     e.g. `COMM 457 101` or `CPSC 221 101` or `CPSC 221 L1F`.
 
-4.  Keep the script running (I use `tmux` to keep it alive)
+4.  Keep the script running (I use `tmux` to keep it alive).
     ```shell
     ./check.py
     ```
