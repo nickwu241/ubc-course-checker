@@ -6,8 +6,9 @@ import requests
 from twilio.rest import Client
 
 COURSES_TO_CHECK = [
-    'LING 447G 001'
+    'CPSC 313 T2B'
 ]
+SHOULD_SEND_TEXT_MESSAGE = False
 
 TWILIO_FROM_NUMBER = os.environ['TWILIO_FROM_NUMBER']
 TWILIO_TO_NUMBER = os.environ['TWILIO_TO_NUMBER']
@@ -17,21 +18,21 @@ TWILIO_CLIENT = Client(
 )
 
 def __send_course_request(dept_name, course_name, section):
-    return requests.get('https://courses.students.ubc.ca/cs/main', params={
+    return requests.get('https://courses.students.ubc.ca/cs/courseschedule', params={
         'pname': 'subjarea',
-        'tname': 'subjarea',
-        'req': '5',
+        'tname': 'subj-section',
         'dept': dept_name,
         'course': course_name,
         'section': section
     })
 
-def __send_text(content):
-    TWILIO_CLIENT.messages.create(
-        body=content,
-        from_=TWILIO_FROM_NUMBER,
-        to=TWILIO_TO_NUMBER
-    )
+def __send_text(content, should_send_text=True):
+    if should_send_text:
+        TWILIO_CLIENT.messages.create(
+            body=content,
+            from_=TWILIO_FROM_NUMBER,
+            to=TWILIO_TO_NUMBER
+        )
     print(content)
 
 def check_courses():
@@ -43,7 +44,9 @@ def check_courses():
         if course_is_full:
             print(f'{course} is full :(')
         else:
-            __send_text(f'{course} has a free spot! Register at {resp.url}')
+            __send_text(
+                f'{course} has a free spot! Register at {resp.url}',
+                should_send_text=SHOULD_SEND_TEXT_MESSAGE)
             COURSES_TO_CHECK.remove(course)
 
 def handler(event, context):
