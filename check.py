@@ -6,7 +6,7 @@ import requests
 from twilio.rest import Client
 
 COURSES_TO_CHECK = [
-    'CPSC 313 T2B'
+    'COMM 473 921'
 ]
 SHOULD_SEND_TEXT_MESSAGE = False
 
@@ -17,13 +17,15 @@ TWILIO_CLIENT = Client(
     os.environ['TWILIO_AUTH_TOKEN']
 )
 
-def __send_course_request(dept_name, course_name, section):
+def __send_course_request(dept_name, course_name, section, sesscd='S', sessyr=2019):
     return requests.get('https://courses.students.ubc.ca/cs/courseschedule', params={
         'pname': 'subjarea',
         'tname': 'subj-section',
         'dept': dept_name,
         'course': course_name,
-        'section': section
+        'section': section,
+        'sesscd': sesscd,
+        'sessyr': sessyr,
     })
 
 def __send_text(content, should_send_text=True):
