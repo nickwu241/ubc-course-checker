@@ -36,7 +36,7 @@ def __send_text(content, should_send_text=True):
             from_=TWILIO_FROM_NUMBER,
             to=TWILIO_TO_NUMBER
         )
-    print(content)
+    print(f'sent text message: {content}')
 
 def check_courses():
     print(f'checking spots for {COURSES_TO_CHECK}...')
@@ -56,7 +56,7 @@ def handler(event, context):
     check_courses()
 
 if __name__ == '__main__':
-    if len(sys.argv) > 0 and sys.argv[1] == '--test':
+    if len(sys.argv) > 1 and sys.argv[1] == '--test':
         __send_text('TEST MESSAGE')
         exit(0)
 
