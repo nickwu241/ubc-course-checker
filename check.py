@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import sys
 import time
 
 import requests
@@ -8,7 +9,7 @@ from twilio.rest import Client
 COURSES_TO_CHECK = [
     'COMM 473 921'
 ]
-SHOULD_SEND_TEXT_MESSAGE = False
+SHOULD_SEND_TEXT_MESSAGE = True
 
 TWILIO_FROM_NUMBER = os.environ['TWILIO_FROM_NUMBER']
 TWILIO_TO_NUMBER = os.environ['TWILIO_TO_NUMBER']
@@ -55,6 +56,10 @@ def handler(event, context):
     check_courses()
 
 if __name__ == '__main__':
+    if len(sys.argv) > 0 and sys.argv[1] == '--test':
+        __send_text('TEST MESSAGE')
+        exit(0)
+
     while True:
         check_courses()
         if not COURSES_TO_CHECK:
